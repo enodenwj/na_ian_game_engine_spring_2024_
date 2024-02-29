@@ -32,22 +32,23 @@ class Game:
     def new(self):
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
-        self.enemy = pg.sprite.Group()
+        self.enemies = pg.sprite.Group()
+        self.player = pg.sprite.Group()
         #self.player = Player(self, 10, 10)
         #for x in range(10, 20):
         #    Wall(self, x, 5)
         for row, tiles in enumerate(self.map_data):
             #print(row)
-            #print(tiles)
+            print(tiles)
             for col, tile in enumerate(tiles):
                 #print(col)
-                #print(tiles)
+                print(tile)
                 if tile == "1":
                     Wall(self, col, row)
                 if tile == "P":
                     self.player = Player(self, col, row)
                 if tile == "E":
-                    self.enemy = Enemy(self,col,row)
+                    Enemy(self, col, row)
                     
     #we have defined the run method in the game engine
     def run(self):
