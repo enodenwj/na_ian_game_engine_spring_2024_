@@ -1,6 +1,8 @@
 #This file was created by: Ian Na
 # my first source control edit
 
+#Game design ideas: coins, quests, hp bar
+
 #importing libraries including our own
 import pygame as pg
 import sys
