@@ -9,7 +9,7 @@ from pygame.sprite import Sprite
 class Player(Sprite):
     # Initializing the player class with attributes.
     def __init__(self, game, x, y): # game parameter = self o/Game
-        self.groups = game.all_sprites, game.player
+        self.groups = game.all_sprites
         Sprite.__init__(self, self.groups)
         #letting the sprite use stuff in game (in main.py)
         self.game = game
@@ -109,7 +109,7 @@ class Wall(Sprite):
 
 class Enemy(Sprite):
     def __init__(self, game, x, y):
-        self.group = game.all_sprites, game.enemies
+        self.groups = game.all_sprites, game.enemies
         Sprite.__init__(self, self.groups)
         self.game = game # The player can access the game class
         self.image = pg.Surface((TILESIZE,TILESIZE))
@@ -122,23 +122,12 @@ class Enemy(Sprite):
         self.x = x * TILESIZE
         self.y = y * TILESIZE
         self.vx, self.vy = ENEMY_SPEED, 0
-
-#    def enemy_move(self):
-#        self.vx, self.vy = 0, 0
-#        if ENEMY_DIR == True:
-#            self.vx = ENEMY_SPEED
-#        else:
-#            self.vx = -ENEMY_SPEED
-#        # sqrt2/2
-#        self.vx *= 0.7071
-#        self.vy *= 0.7071
  
     def collide_with_walls(self):
-        if dir == 'x':
-            hits = pg.sprite.spritecollide(self, self.game.walls, False)
-            if hits:
-                self.vx *= -1
-                self.rect.x = self.x
+        hits = pg.sprite.spritecollide(self, self.game.walls, False)
+        if hits:
+            self.vx *= -1
+            self.rect.x = self.x
 
     def update(self):
         self.x += self.vx * self.game.dt
