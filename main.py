@@ -1,7 +1,7 @@
 #This file was created by: Ian Na
 # my first source control edit
 
-#Game design ideas: coins, quests, hp bar
+#Game design ideas: coins, timer, enemy
 
 #importing libraries including our own
 import pygame as pg
@@ -37,6 +37,7 @@ class Game:
         self.walls = pg.sprite.Group()
         self.enemies = pg.sprite.Group()
         self.player = pg.sprite.Group()
+        self.coins = pg.sprite.Group()
         #self.player = Player(self, 10, 10)
         #for x in range(10, 20):
         #    Wall(self, x, 5)
@@ -52,6 +53,8 @@ class Game:
                     self.player = Player(self, col, row)
                 if tile == "E":
                     Enemy(self, col, row)
+                if tile == "C":
+                    Coin(self, col, row)
                     
     #we have defined the run method in the game engine
     def run(self):
