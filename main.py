@@ -2,6 +2,8 @@
 # my first source control edit
 
 #Game design ideas: coins, timer, enemy
+# touhou start screen
+#time limit
 
 #importing libraries including our own
 import pygame as pg
