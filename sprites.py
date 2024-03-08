@@ -117,10 +117,20 @@ class Coin(Sprite):
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y        
-        self.rect.x = self.x
-        self.rect.y = self.y
-        self.x = x * TILESIZE
-        self.y = y * TILESIZE
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
+        self.lives = 1
+    
+#    def collide_with_player(self,kill):
+#        hits = pg.sprite.spritecollide(self, self.game.player, kill)
+#        if hits:
+#            self.lives -= 1
+#            return True
+#    
+#    def update(self):
+#        if self.collide_with_player(False):
+#            if self.lives == 0:
+#                self.game.coin.kill()
 
 class Enemy(Sprite):
     def __init__(self, game, x, y):
