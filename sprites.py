@@ -20,12 +20,13 @@ class Player(Sprite):
         self.vx, self.vy = 0, 0
         self.x = x * TILESIZE
         self.y = y * TILESIZE
-        self.lives = 10
+        self.lives = 100
+        self.coins = 0
 
     # def move(self, dx=0, dy=0):
     #     self.x += dx
-    #     self.y += dy   
-
+    #     self.y += dy 
+          
     def get_keys(self):
         self.vx, self.vy  = 0, 0  
         keys = pg.key.get_pressed()
@@ -69,16 +70,15 @@ class Player(Sprite):
             self.lives -=1
             print(self.lives)
             return True
-
-#    def collide_with_group(self, group, kill):
-#        hits = pg.sprite.spritecollide(self, group, kill)
-#        if hits:
-#            if str(hits[0].__class__.__name__) == "Coin":
-#                self.moneybag += 1
+#Coach Cozort's Code
+    def collide_with_group(self, group, kill):
+        hits = pg.sprite.spritecollide(self, group, kill)
+        if hits:
+            if str(hits[0].__class__.__name__) == "Coin":
+                self.coins += 1
+#               self.game.cooldown.cd = 5
 
     def update(self):
-        # self.rect.x = self.x * TILESIZE
-        # self.rect.y = self.y * TILESIZE
         self.get_keys()
         self.x += self.vx * self.game.dt
         self.y += self.vy * self.game.dt
@@ -90,6 +90,10 @@ class Player(Sprite):
             if self.lives == 0:
                 self.game.player.kill()
                 print('you died')
+#Coach Cozort's Code
+        self.collide_with_group(self.game.coins, True)
+#        if self.game.cooldown.cd < 1:
+#            self.cooling = False
 
 # Create a wall class
 class Wall(Sprite):
@@ -119,18 +123,8 @@ class Coin(Sprite):
         self.y = y        
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
-        self.lives = 1
     
-#    def collide_with_player(self,kill):
-#        hits = pg.sprite.spritecollide(self, self.game.player, kill)
-#        if hits:
-#            self.lives -= 1
-#            return True
-#    
-#    def update(self):
-#        if self.collide_with_player(False):
-#            if self.lives == 0:
-#                self.game.coin.kill()
+
 
 class Enemy(Sprite):
     def __init__(self, game, x, y):

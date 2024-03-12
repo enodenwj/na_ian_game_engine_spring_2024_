@@ -3,7 +3,8 @@
 
 #Game design ideas: coins, timer, enemy
 # touhou start screen
-#time limit
+# time limit
+# 
 
 #importing libraries including our own
 import pygame as pg
@@ -12,6 +13,7 @@ from settings import * #wildcard symbol (meaning import all)
 from sprites import *
 from random import randint # a random integer in a specified range
 from os import path
+import time
 
 #creating the class
 class Game:
@@ -68,6 +70,13 @@ class Game:
             self.draw()
             # input process output
 
+    def timer(self):
+        time = 30
+        time.sleep(1)
+        time =- 1
+        print ("time")
+
+
     def quit(self):
         pg.quit()
         sys.exit()
@@ -116,18 +125,3 @@ while True:
     g.new()
     g.run()
     #g.show_go_screen()
-
-#    #input method (move into future player class)
-#    def input(self):
-#        keys = pg.key.get_pressed()
-#        if keys[pg.K_LEFT]:
-#            print("I HIT THE LEFT ARROW")
-#        if keys[pg.K_RIGHT]:
-#            print("I HIT THE RIGHT ARROW")
-
-#        #the ==True is implied
-#        while self.running:
-#            for event in pg.event.get():
-#                if event.type == pg.QUIT:
-#                    self.running = False
-#            self.input()
