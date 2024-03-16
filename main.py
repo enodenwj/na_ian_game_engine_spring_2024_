@@ -4,7 +4,6 @@
 #Game design ideas: coins, timer, enemy
 # touhou start screen
 # time limit
-# 
 
 #importing libraries including our own
 import pygame as pg
@@ -25,7 +24,9 @@ class Game:
         self.clock = pg.time.Clock()
         pg.key.set_repeat(500,  100) # delays the input
         self.load_data()
+        self.load_start_screen()
         self.running = True
+#        self.game_paused = True
 
     # loading save game data and other things
     def load_data(self):
@@ -35,6 +36,34 @@ class Game:
             for line in f:
                 self.map_data.append(line)
 
+    def load_start_screen(self):
+        game_folder = path.dirname(__file__)
+        self.start_data = []
+        with open(path.join(game_folder, 'start.txt'), 'rt',) as f:
+            for line in f:
+                self.start_data.append(line)    
+
+    #we have made the start screen
+    def draw_start_screen(self):
+        for row, tiles in enumerate(self.start_data):
+            #print(row)
+            print(tiles)
+            for col, tile in enumerate(tiles):
+                #print(col)
+                print(tile)
+                if tile == "1":
+                    StartBlock(self, col, row)
+
+    #we have defined the run method in the game engine
+    def run(self):
+        self.playing = True
+        while self.playing: #and not self.game_paused:
+            self.dt = self.clock.tick(FPS) / 1000
+            self.events()
+            self.update()
+            self.draw()
+            # input process output
+  
     # initializing all variables and setting up groups and instantiating classes
     def new(self):
         self.all_sprites = pg.sprite.Group()
@@ -59,23 +88,6 @@ class Game:
                     Enemy(self, col, row)
                 if tile == "C":
                     Coin(self, col, row)
-                    
-    #we have defined the run method in the game engine
-    def run(self):
-        self.playing = True
-        while self.playing:
-            self.dt = self.clock.tick(FPS) / 1000
-            self.events()
-            self.update()
-            self.draw()
-            # input process output
-
-    def timer(self):
-        time = 30
-        time.sleep(1)
-        time =- 1
-        print ("time")
-
 
     def quit(self):
         pg.quit()
@@ -102,25 +114,13 @@ class Game:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.quit()
-            # if event.type == pg.KEYDOWN:
-            #     if event.key == pg.K_LEFT:
-            #         self.player.move(dx=-1)
-            #     if event.key == pg.K_RIGHT:
-            #         self.player.move(dx=1)
-            #     if event.key == pg.K_UP:
-            #         self.player.move(dy=-1)
-            #     if event.key == pg.K_DOWN:
-            #         self.player.move(dy=+1)
-
-    def show_start_screen(self):
-        pass
 
     def show_go_screen(self):
         pass
 
 #I have instantiated the game
 g = Game()
-#g.show_start_screen()
+g.draw_start_screen()
 while True:
     g.new()
     g.run()

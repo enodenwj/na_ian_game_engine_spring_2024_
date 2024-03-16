@@ -22,10 +22,6 @@ class Player(Sprite):
         self.y = y * TILESIZE
         self.lives = 100
         self.coins = 0
-
-    # def move(self, dx=0, dy=0):
-    #     self.x += dx
-    #     self.y += dy 
           
     def get_keys(self):
         self.vx, self.vy  = 0, 0  
@@ -100,6 +96,22 @@ class Wall(Sprite):
     # Initializing the wall class with attributes.
     def __init__ (self,game,x,y):
         self.groups = game.all_sprites, game.walls
+        Sprite.__init__(self, self.groups)
+        self.game = game
+        # create a square
+        self.image = pg.Surface((TILESIZE,TILESIZE))
+        self.image.fill(YELLOW)
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
+
+# Create a start block class
+class StartBlock(Sprite):
+    # Initializing the wall class with attributes.
+    def __init__ (self,game,x,y):
+        #self.groups = game.all_sprites, game.walls
         Sprite.__init__(self, self.groups)
         self.game = game
         # create a square
