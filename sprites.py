@@ -21,8 +21,8 @@ class Player(Sprite):
         self.x = x * TILESIZE
         self.y = y * TILESIZE
         self.lives = 100
-        self.coins = 0
-          
+        self.score = 0
+    
     def get_keys(self):
         self.vx, self.vy  = 0, 0  
         keys = pg.key.get_pressed()
@@ -71,7 +71,7 @@ class Player(Sprite):
         hits = pg.sprite.spritecollide(self, group, kill)
         if hits:
             if str(hits[0].__class__.__name__) == "Coin":
-                self.coins += 1
+                self.score += 1
 #               self.game.cooldown.cd = 5
 
     def update(self):
@@ -88,6 +88,7 @@ class Player(Sprite):
                 print('you died')
 #Coach Cozort's Code
         self.collide_with_group(self.game.coins, True)
+            
 #        if self.game.cooldown.cd < 1:
 #            self.cooling = False
 
@@ -111,7 +112,7 @@ class Wall(Sprite):
 class StartBlock(Sprite):
     # Initializing the wall class with attributes.
     def __init__ (self,game,x,y):
-        #self.groups = game.all_sprites, game.walls
+        self.groups = game.all_sprites, game.starts
         Sprite.__init__(self, self.groups)
         self.game = game
         # create a square

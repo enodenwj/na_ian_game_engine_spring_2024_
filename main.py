@@ -24,7 +24,6 @@ class Game:
         self.clock = pg.time.Clock()
         pg.key.set_repeat(500,  100) # delays the input
         self.load_data()
-        self.load_start_screen()
         self.running = True
 #        self.game_paused = True
 
@@ -36,23 +35,42 @@ class Game:
             for line in f:
                 self.map_data.append(line)
 
-    def load_start_screen(self):
-        game_folder = path.dirname(__file__)
-        self.start_data = []
-        with open(path.join(game_folder, 'start.txt'), 'rt',) as f:
-            for line in f:
-                self.start_data.append(line)    
+    def show_text(self, surface, text, size, color, x, y):
+        font_name = pg.font.match_font('Courier New')
+        font = pg.font.Font(font_name, size)
+        text_surface = font.render(text, True, color)
+        text_rect = text_surface.get_rect()
+        text_rect.midtop = (x,y)
+        surface.blit(text_surface, text_rect)
 
-    #we have made the start screen
-    def draw_start_screen(self):
-        for row, tiles in enumerate(self.start_data):
-            #print(row)
-            print(tiles)
-            for col, tile in enumerate(tiles):
-                #print(col)
-                print(tile)
-                if tile == "1":
-                    StartBlock(self, col, row)
+    def display_startup_screen(self):
+        self.screen.fill(STARTBG)
+        x = WIDTH/2
+        y = HEIGHT/4
+        factor = 15
+        self.show_text(self.screen, "          _____                    _____           _______                   _____                    _____                    _____", 10, YELLOW, x, y+factor )
+        self.show_text(self.screen, "         /\    \                  /\    \         /::\    \                 /\    \                  /\    \                  /\    \\", 10, YELLOW, x, y + 2*factor)
+        self.show_text(self.screen, "        /::\    \                /::\____\       /::::\    \               /::\    \                /::\____\                /::\    \\", 10, YELLOW, x, y + 3*factor)
+        self.show_text(self.screen, "       /::::\    \              /:::/    /      /::::::\    \             /::::\    \              /:::/    /               /::::\    \\", 10, YELLOW, x, y + 4*factor)
+        self.show_text(self.screen, "      /::::::\    \            /:::/    /      /::::::::\    \           /::::::\    \            /:::/    /               /::::::\    \\", 10, YELLOW, x, y + 5*factor)
+        self.show_text(self.screen, "     /:::/\:::\    \          /:::/    /      /:::/~~\:::\    \         /:::/\:::\    \          /:::/    /               /:::/\:::\    \\", 10, YELLOW, x, y + 6*factor)
+        self.show_text(self.screen, "    /:::/__\:::\    \        /:::/    /      /:::/    \:::\    \       /:::/  \:::\    \        /:::/____/               /:::/__\:::\    \\", 10, YELLOW, x, y + 7*factor)
+        self.show_text(self.screen, "   /::::\   \:::\    \      /:::/    /      /:::/    / \:::\    \     /:::/    \:::\    \      /::::\    \               \:::\   \:::\    \\", 10, YELLOW, x, y + 8*factor)
+        self.show_text(self.screen, "  /::::::\   \:::\    \    /:::/    /      /:::/____/   \:::\____\   /:::/    / \:::\    \    /::::::\____\________    ___\:::\   \:::\    \\", 10, YELLOW, x+5, y + 8*factor)
+        self.show_text(self.screen, " /:::/\:::\   \:::\ ___\  /:::/    /      |:::|    |     |:::|    | /:::/    /   \:::\    \  /:::/\:::::::::::\    \  /\   \:::\   \:::\    \\", 10, YELLOW, x+5, y + 9*factor) 
+        self.show_text(self.screen, "/:::/__\:::\   \:::|    |/:::/____/       |:::|____|     |:::|    |/:::/____/     \:::\____\/:::/  |:::::::::::\____\/::\   \:::\   \:::\____\\", 10, YELLOW, x+5, y + 10*factor)
+        self.show_text(self.screen, "\:::\   \:::\  /:::|____|\:::\    \        \:::\    \   /:::/    / \:::\    \      \::/    /\::/   |::|~~~|~~~~~     \:::\   \:::\   \::/    /", 10, YELLOW, x, y + 11*factor)
+        self.show_text(self.screen, " \:::\   \:::\/:::/    /  \:::\    \        \:::\    \ /:::/    /   \:::\    \      \/____/  \/____|::|   |           \:::\   \:::\   \/____/", 10, YELLOW, x, y + 12*factor)
+        self.show_text(self.screen, "  \:::\   \::::::/    /    \:::\    \        \:::\    /:::/    /     \:::\    \                    |::|   |            \:::\   \:::\    \\", 10, YELLOW, x-10, y + 13*factor)     
+        self.show_text(self.screen, "   \:::\   \::::/    /      \:::\    \        \:::\__/:::/    /       \:::\    \                   |::|   |             \:::\   \:::\____\\", 10, YELLOW, x, y + 14*factor)    
+        self.show_text(self.screen, "    \:::\  /:::/    /        \:::\    \        \::::::::/    /         \:::\    \                  |::|   |              \:::\  /:::/    /", 10, YELLOW, x, y + 15*factor)    
+        self.show_text(self.screen, "     \:::\/:::/    /          \:::\    \        \::::::/    /           \:::\    \                 |::|   |               \:::\/:::/    /", 10, YELLOW, x, y + 16*factor)     
+        self.show_text(self.screen, "      \::::::/    /            \:::\    \        \::::/    /             \:::\    \                |::|   |                \::::::/    /", 10, YELLOW, x, y + 17*factor)      
+        self.show_text(self.screen, "       \::::/    /              \:::\____\        \::/____/               \:::\____\               \::|   |                 \::::/    /", 10, YELLOW, x, y + 18*factor)       
+        self.show_text(self.screen, "        \::/____/                \::/    /         ~~                      \::/    /                \:|   |                  \::/    /", 10, YELLOW, x, y + 19*factor)        
+        self.show_text(self.screen, "         ~~                       \/____/                                   \/____/                  \|___|                   \/____/", 10, YELLOW, x, y + 20*factor)
+        self.show_text(self.screen, "PRESS ANY KEY TO START", 20, GREEN, x+20, y + 23*factor)
+        pg.display.flip()
 
     #we have defined the run method in the game engine
     def run(self):
@@ -62,6 +80,8 @@ class Game:
             self.events()
             self.update()
             self.draw()
+            self.show_text(self.screen, "Score: " + str(self.player.score), 25, RED, 60, 0)
+            pg.display.flip()
             # input process output
   
     # initializing all variables and setting up groups and instantiating classes
@@ -71,9 +91,6 @@ class Game:
         self.enemies = pg.sprite.Group()
         self.player = pg.sprite.Group()
         self.coins = pg.sprite.Group()
-        #self.player = Player(self, 10, 10)
-        #for x in range(10, 20):
-        #    Wall(self, x, 5)
         for row, tiles in enumerate(self.map_data):
             #print(row)
             print(tiles)
@@ -105,7 +122,7 @@ class Game:
 
     def draw(self):
         self.screen.fill(BGCOLOR)
-        self.draw_grid()
+#        self.draw_grid()
         self.all_sprites.draw(self.screen)
         pg.display.flip()
 
@@ -120,8 +137,20 @@ class Game:
 
 #I have instantiated the game
 g = Game()
-g.draw_start_screen()
+
+g.display_startup_screen()
+waiting = True
+while waiting:
+    g.clock.tick(FPS)
+    for event in pg.event.get():
+        if event.type == pg.QUIT:
+            waiting = False
+            g.quit()
+        if event.type == pg.KEYUP:
+            waiting = False
+
 while True:
     g.new()
     g.run()
+
     #g.show_go_screen()
