@@ -43,6 +43,36 @@ class Game:
         text_rect.midtop = (x,y)
         surface.blit(text_surface, text_rect)
 
+    def display_end_screen(self):
+        self.screen.fill(STARTBG)
+        x = WIDTH/2
+        y = HEIGHT/4
+        factor = 15
+        self.show_text(self.screen, "          _____                    _____           _______                   _____                    _____                    _____", 10, YELLOW, x, y+factor )
+        self.show_text(self.screen, "         /\    \                  /\    \         /::\    \                 /\    \                  /\    \                  /\    \\", 10, YELLOW, x, y + 2*factor)
+        self.show_text(self.screen, "        /::\    \                /::\____\       /::::\    \               /::\    \                /::\____\                /::\    \\", 10, YELLOW, x, y + 3*factor)
+        self.show_text(self.screen, "       /::::\    \              /:::/    /      /::::::\    \             /::::\    \              /:::/    /               /::::\    \\", 10, YELLOW, x, y + 4*factor)
+        self.show_text(self.screen, "      /::::::\    \            /:::/    /      /::::::::\    \           /::::::\    \            /:::/    /               /::::::\    \\", 10, YELLOW, x, y + 5*factor)
+        self.show_text(self.screen, "     /:::/\:::\    \          /:::/    /      /:::/~~\:::\    \         /:::/\:::\    \          /:::/    /               /:::/\:::\    \\", 10, YELLOW, x, y + 6*factor)
+        self.show_text(self.screen, "    /:::/__\:::\    \        /:::/    /      /:::/    \:::\    \       /:::/  \:::\    \        /:::/____/               /:::/__\:::\    \\", 10, YELLOW, x, y + 7*factor)
+        self.show_text(self.screen, "   /::::\   \:::\    \      /:::/    /      /:::/    / \:::\    \     /:::/    \:::\    \      /::::\    \               \:::\   \:::\    \\", 10, YELLOW, x, y + 8*factor)
+        self.show_text(self.screen, "  /::::::\   \:::\    \    /:::/    /      /:::/____/   \:::\____\   /:::/    / \:::\    \    /::::::\____\________    ___\:::\   \:::\    \\", 10, YELLOW, x+5, y + 8*factor)
+        self.show_text(self.screen, " /:::/\:::\   \:::\ ___\  /:::/    /      |:::|    |     |:::|    | /:::/    /   \:::\    \  /:::/\:::::::::::\    \  /\   \:::\   \:::\    \\", 10, YELLOW, x+5, y + 9*factor) 
+        self.show_text(self.screen, "/:::/__\:::\   \:::|    |/:::/____/       |:::|____|     |:::|    |/:::/____/     \:::\____\/:::/  |:::::::::::\____\/::\   \:::\   \:::\____\\", 10, YELLOW, x+5, y + 10*factor)
+        self.show_text(self.screen, "\:::\   \:::\  /:::|____|\:::\    \        \:::\    \   /:::/    / \:::\    \      \::/    /\::/   |::|~~~|~~~~~     \:::\   \:::\   \::/    /", 10, YELLOW, x, y + 11*factor)
+        self.show_text(self.screen, " \:::\   \:::\/:::/    /  \:::\    \        \:::\    \ /:::/    /   \:::\    \      \/____/  \/____|::|   |           \:::\   \:::\   \/____/", 10, YELLOW, x, y + 12*factor)
+        self.show_text(self.screen, "  \:::\   \::::::/    /    \:::\    \        \:::\    /:::/    /     \:::\    \                    |::|   |            \:::\   \:::\    \\", 10, YELLOW, x-10, y + 13*factor)     
+        self.show_text(self.screen, "   \:::\   \::::/    /      \:::\    \        \:::\__/:::/    /       \:::\    \                   |::|   |             \:::\   \:::\____\\", 10, YELLOW, x, y + 14*factor)    
+        self.show_text(self.screen, "    \:::\  /:::/    /        \:::\    \        \::::::::/    /         \:::\    \                  |::|   |              \:::\  /:::/    /", 10, YELLOW, x, y + 15*factor)    
+        self.show_text(self.screen, "     \:::\/:::/    /          \:::\    \        \::::::/    /           \:::\    \                 |::|   |               \:::\/:::/    /", 10, YELLOW, x, y + 16*factor)     
+        self.show_text(self.screen, "      \::::::/    /            \:::\    \        \::::/    /             \:::\    \                |::|   |                \::::::/    /", 10, YELLOW, x, y + 17*factor)      
+        self.show_text(self.screen, "       \::::/    /              \:::\____\        \::/____/               \:::\____\               \::|   |                 \::::/    /", 10, YELLOW, x, y + 18*factor)       
+        self.show_text(self.screen, "        \::/____/                \::/    /         ~~                      \::/    /                \:|   |                  \::/    /", 10, YELLOW, x, y + 19*factor)        
+        self.show_text(self.screen, "         ~~                       \/____/                                   \/____/                  \|___|                   \/____/", 10, YELLOW, x, y + 20*factor)
+        self.show_text(self.screen, "GAME OVER", 50, GREEN, x+20, y + 23*factor)
+        self.show_text(self.screen, "THIS GAME WILL CLOSE IN 5 SECONDS", 20, GREEN, x+20, y + 27*factor)
+        pg.display.flip()
+
     def display_startup_screen(self):
         self.screen.fill(STARTBG)
         x = WIDTH/2
@@ -72,6 +102,20 @@ class Game:
         self.show_text(self.screen, "PRESS ANY KEY TO START", 20, GREEN, x+20, y + 23*factor)
         pg.display.flip()
 
+#way to detect if any key on the keyboard is pressed
+#Coach Cozort's Code
+    def press_any_key(self):
+        waiting = True
+        while waiting:
+            pg.event.clear()
+            self.clock.tick(FPS)
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    waiting = False
+                    self.quit()
+                if event.type == pg.KEYUP:
+                    waiting = False
+
     #we have defined the run method in the game engine
     def run(self):
         self.playing = True
@@ -82,6 +126,10 @@ class Game:
             self.draw()
             self.show_text(self.screen, "Score: " + str(self.player.score), 25, RED, 60, 0)
             pg.display.flip()
+            if g.player.score == 1 or self.player.lives == 0:
+                g.display_end_screen()
+                time.sleep(5)
+                self.quit()
             # input process output
   
     # initializing all variables and setting up groups and instantiating classes
@@ -139,18 +187,7 @@ class Game:
 g = Game()
 
 g.display_startup_screen()
-waiting = True
-while waiting:
-    g.clock.tick(FPS)
-    for event in pg.event.get():
-        if event.type == pg.QUIT:
-            waiting = False
-            g.quit()
-        if event.type == pg.KEYUP:
-            waiting = False
-
-while True:
-    g.new()
-    g.run()
-
-    #g.show_go_screen()
+g.press_any_key();
+g.new()
+g.run()
+g.press_any_key()
