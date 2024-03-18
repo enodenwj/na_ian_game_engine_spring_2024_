@@ -15,7 +15,7 @@ class Player(Sprite):
         self.game = game
         # properties of the character
         self.image = pg.Surface((TILESIZE,TILESIZE))
-        self.image.fill(YELLOW)
+        self.image.fill(WHITE)
         self.rect = self.image.get_rect()
         self.vx, self.vy = 0, 0
         self.x = x * TILESIZE
@@ -101,7 +101,7 @@ class Wall(Sprite):
         self.game = game
         # create a square
         self.image = pg.Surface((TILESIZE,TILESIZE))
-        self.image.fill(YELLOW)
+        self.image.fill(GREEN)
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
@@ -130,7 +130,7 @@ class Coin(Sprite):
         Sprite.__init__(self,self.groups)
         self.game = game
         self.image = pg.Surface((TILESIZE, TILESIZE))
-        self.image.fill(GREEN)
+        self.image.fill(YELLOW)
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y        

@@ -25,6 +25,7 @@ class Game:
         pg.key.set_repeat(500,  100) # delays the input
         self.load_data()
         self.running = True
+        self.timer=90
 #        self.game_paused = True
 
     # loading save game data and other things
@@ -121,12 +122,15 @@ class Game:
         self.playing = True
         while self.playing: #and not self.game_paused:
             self.dt = self.clock.tick(FPS) / 1000
+            self.timer -= 0.00350625
             self.events()
             self.update()
             self.draw()
-            self.show_text(self.screen, "Score: " + str(self.player.score), 25, RED, 60, 0)
+            self.show_text(self.screen, "Score: " + str(self.player.score), 25, RED, 75, 0)
+            self.show_text(self.screen, "Time Left " + str(int(self.timer)), 25, RED, 300, 0)
+            self.show_text(self.screen, "EAT ALL THE COINS", 25, RED, 600, 0)
             pg.display.flip()
-            if g.player.score == 1 or self.player.lives == 0:
+            if g.player.score == 36 or self.player.lives == 0 or int(self.timer) == 0:
                 g.display_end_screen()
                 time.sleep(5)
                 self.quit()
