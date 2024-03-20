@@ -23,6 +23,7 @@ class Player(Sprite):
         self.lives = 100
         self.score = 0
     
+    #A pygame-specific thing, this lets you detect the key pressed 
     def get_keys(self):
         self.vx, self.vy  = 0, 0  
         keys = pg.key.get_pressed()
@@ -40,6 +41,7 @@ class Player(Sprite):
             self.vx *= 0.7071
             self.vy *= 0.7071
 
+    #Essentially detects walls on both axes, then stops the velocity in that direction
     def collide_with_walls(self, dir):
         if dir == 'x':
             hits = pg.sprite.spritecollide(self, self.game.walls, False)
@@ -60,6 +62,7 @@ class Player(Sprite):
                 self.vy = 0
                 self.rect.y = self.y
     
+    #rapidly decreases HP based on collision with an enemy
     def collide_with_enemies(self,kill):
         hits = pg.sprite.spritecollide(self, self.game.enemies, kill)
         if hits:
@@ -140,7 +143,7 @@ class Coin(Sprite):
         #same as the enemy/player classes, but very stripped down.
     
 
-
+#We made a basic enemy as a group
 class Enemy(Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.enemies
