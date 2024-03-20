@@ -1,9 +1,10 @@
 #This file was created by: Ian Na
-# my first source control edit
 
-#Game design ideas: coins, timer, enemy
-# touhou start screen
-# time limit
+#Game design ideas: coins, timer, enemy, start/end screen
+#Freedom: true, x,y movement
+#Goals: Eat all the coins to trigger game over
+#Rules: Walls stop the player, enemies kill the player (very minimal hitpoints, almost instant death)
+#Feedback: The hitpoints, player speed are shown in game, the goal is shown on screen
 
 #importing libraries including our own
 import pygame as pg
@@ -36,6 +37,7 @@ class Game:
             for line in f:
                 self.map_data.append(line)
 
+    #Coach Cozort's Code referenced
     def show_text(self, surface, text, size, color, x, y):
         font_name = pg.font.match_font('Courier New')
         font = pg.font.Font(font_name, size)
@@ -48,7 +50,7 @@ class Game:
         self.screen.fill(STARTBG)
         x = WIDTH/2
         y = HEIGHT/4
-        factor = 15
+        factor = 15 # factor added for easy modification
         self.show_text(self.screen, "          _____                    _____           _______                   _____                    _____                    _____", 10, YELLOW, x, y+factor )
         self.show_text(self.screen, "         /\    \                  /\    \         /::\    \                 /\    \                  /\    \                  /\    \\", 10, YELLOW, x, y + 2*factor)
         self.show_text(self.screen, "        /::\    \                /::\____\       /::::\    \               /::\    \                /::\____\                /::\    \\", 10, YELLOW, x, y + 3*factor)
@@ -74,6 +76,7 @@ class Game:
         self.show_text(self.screen, "THIS GAME WILL CLOSE IN 5 SECONDS", 20, GREEN, x+20, y + 27*factor)
         pg.display.flip()
 
+    #Longer way of inserting every line of the start screen directly into main
     def display_startup_screen(self):
         self.screen.fill(STARTBG)
         x = WIDTH/2
@@ -104,7 +107,7 @@ class Game:
         pg.display.flip()
 
 #way to detect if any key on the keyboard is pressed
-#Coach Cozort's Code
+    #Coach Cozort's Code referenced
     def press_any_key(self):
         waiting = True
         while waiting:
@@ -126,9 +129,6 @@ class Game:
             self.events()
             self.update()
             self.draw()
-            self.show_text(self.screen, "Score: " + str(self.player.score), 25, RED, 75, 0)
-            self.show_text(self.screen, "Time Left " + str(int(self.timer)), 25, RED, 300, 0)
-            self.show_text(self.screen, "EAT ALL THE COINS", 25, RED, 600, 0)
             pg.display.flip()
             if g.player.score == 36 or self.player.lives == 0 or int(self.timer) == 0:
                 g.display_end_screen()
@@ -157,6 +157,11 @@ class Game:
                     Enemy(self, col, row)
                 if tile == "C":
                     Coin(self, col, row)
+                if tile == "G":
+                    Vertenemy(self, col, row)
+
+#    def topbar(self):
+#        while self.playing:
 
     def quit(self):
         pg.quit()
@@ -166,6 +171,7 @@ class Game:
         self.all_sprites.update()
         # single line updates all
 
+    #not actually used anymore, but this would draw a grid at the borders of every square in the game
     def draw_grid(self):
         for x in range(0, WIDTH, TILESIZE):
             pg.draw.line(self.screen, LIGHTGREY, (x, 0), (x, HEIGHT))
@@ -176,6 +182,12 @@ class Game:
         self.screen.fill(BGCOLOR)
 #        self.draw_grid()
         self.all_sprites.draw(self.screen)
+        #added the text here so it gets drawn over the other elements! (issue in previous push)
+        self.show_text(self.screen, "Score: " + str(self.player.score), 25, RED, 75, 0)
+        self.show_text(self.screen, "Time Left " + str(int(self.timer)), 25, RED, 300, 0)
+        self.show_text(self.screen, "EAT ALL THE COINS", 25, RED, 550, 0)
+        self.show_text(self.screen, "HP " + str(self.player.lives), 25, RED, 775, 0)
+        self.show_text(self.screen, "Speed " + str(200 + (self.player.score*10)), 25, RED, 900, 0)
         pg.display.flip()
 
     # essentially all inputs we give 
@@ -191,7 +203,9 @@ class Game:
 g = Game()
 
 g.display_startup_screen()
+# running to see if any key is pressed, then it runs g.new
 g.press_any_key();
 g.new()
 g.run()
+g.topbar()
 g.press_any_key()
