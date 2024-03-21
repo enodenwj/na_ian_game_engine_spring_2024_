@@ -4,7 +4,7 @@
 #Freedom: true, x,y movement
 #Goals: Eat all the coins to trigger game over
 #Rules: Walls stop the player, enemies kill the player (very minimal hitpoints, almost instant death)
-#Feedback: The hitpoints, player speed are shown in game, the goal is shown on screen
+#Feedback: The hitpoints, player speed are shown in game, and other statuses
 
 #importing libraries including our own
 import pygame as pg
@@ -46,6 +46,7 @@ class Game:
         text_rect.midtop = (x,y)
         surface.blit(text_surface, text_rect)
 
+    #Prints the start screen
     def display_end_screen(self):
         self.screen.fill(STARTBG)
         x = WIDTH/2
@@ -105,6 +106,36 @@ class Game:
         self.show_text(self.screen, "         ~~                       \/____/                                   \/____/                  \|___|                   \/____/", 10, YELLOW, x, y + 20*factor)
         self.show_text(self.screen, "PRESS ANY KEY TO START", 20, GREEN, x+20, y + 23*factor)
         pg.display.flip()
+    
+    #third screen, for the win condition.
+    def display_win_screen(self):
+        self.screen.fill(STARTBG)
+        x = WIDTH/2
+        y = HEIGHT/4
+        factor = 15
+        self.show_text(self.screen, "          _____                    _____           _______                   _____                    _____                    _____", 10, YELLOW, x, y+factor )
+        self.show_text(self.screen, "         /\    \                  /\    \         /::\    \                 /\    \                  /\    \                  /\    \\", 10, YELLOW, x, y + 2*factor)
+        self.show_text(self.screen, "        /::\    \                /::\____\       /::::\    \               /::\    \                /::\____\                /::\    \\", 10, YELLOW, x, y + 3*factor)
+        self.show_text(self.screen, "       /::::\    \              /:::/    /      /::::::\    \             /::::\    \              /:::/    /               /::::\    \\", 10, YELLOW, x, y + 4*factor)
+        self.show_text(self.screen, "      /::::::\    \            /:::/    /      /::::::::\    \           /::::::\    \            /:::/    /               /::::::\    \\", 10, YELLOW, x, y + 5*factor)
+        self.show_text(self.screen, "     /:::/\:::\    \          /:::/    /      /:::/~~\:::\    \         /:::/\:::\    \          /:::/    /               /:::/\:::\    \\", 10, YELLOW, x, y + 6*factor)
+        self.show_text(self.screen, "    /:::/__\:::\    \        /:::/    /      /:::/    \:::\    \       /:::/  \:::\    \        /:::/____/               /:::/__\:::\    \\", 10, YELLOW, x, y + 7*factor)
+        self.show_text(self.screen, "   /::::\   \:::\    \      /:::/    /      /:::/    / \:::\    \     /:::/    \:::\    \      /::::\    \               \:::\   \:::\    \\", 10, YELLOW, x, y + 8*factor)
+        self.show_text(self.screen, "  /::::::\   \:::\    \    /:::/    /      /:::/____/   \:::\____\   /:::/    / \:::\    \    /::::::\____\________    ___\:::\   \:::\    \\", 10, YELLOW, x+5, y + 8*factor)
+        self.show_text(self.screen, " /:::/\:::\   \:::\ ___\  /:::/    /      |:::|    |     |:::|    | /:::/    /   \:::\    \  /:::/\:::::::::::\    \  /\   \:::\   \:::\    \\", 10, YELLOW, x+5, y + 9*factor) 
+        self.show_text(self.screen, "/:::/__\:::\   \:::|    |/:::/____/       |:::|____|     |:::|    |/:::/____/     \:::\____\/:::/  |:::::::::::\____\/::\   \:::\   \:::\____\\", 10, YELLOW, x+5, y + 10*factor)
+        self.show_text(self.screen, "\:::\   \:::\  /:::|____|\:::\    \        \:::\    \   /:::/    / \:::\    \      \::/    /\::/   |::|~~~|~~~~~     \:::\   \:::\   \::/    /", 10, YELLOW, x, y + 11*factor)
+        self.show_text(self.screen, " \:::\   \:::\/:::/    /  \:::\    \        \:::\    \ /:::/    /   \:::\    \      \/____/  \/____|::|   |           \:::\   \:::\   \/____/", 10, YELLOW, x, y + 12*factor)
+        self.show_text(self.screen, "  \:::\   \::::::/    /    \:::\    \        \:::\    /:::/    /     \:::\    \                    |::|   |            \:::\   \:::\    \\", 10, YELLOW, x-10, y + 13*factor)     
+        self.show_text(self.screen, "   \:::\   \::::/    /      \:::\    \        \:::\__/:::/    /       \:::\    \                   |::|   |             \:::\   \:::\____\\", 10, YELLOW, x, y + 14*factor)    
+        self.show_text(self.screen, "    \:::\  /:::/    /        \:::\    \        \::::::::/    /         \:::\    \                  |::|   |              \:::\  /:::/    /", 10, YELLOW, x, y + 15*factor)    
+        self.show_text(self.screen, "     \:::\/:::/    /          \:::\    \        \::::::/    /           \:::\    \                 |::|   |               \:::\/:::/    /", 10, YELLOW, x, y + 16*factor)     
+        self.show_text(self.screen, "      \::::::/    /            \:::\    \        \::::/    /             \:::\    \                |::|   |                \::::::/    /", 10, YELLOW, x, y + 17*factor)      
+        self.show_text(self.screen, "       \::::/    /              \:::\____\        \::/____/               \:::\____\               \::|   |                 \::::/    /", 10, YELLOW, x, y + 18*factor)       
+        self.show_text(self.screen, "        \::/____/                \::/    /         ~~                      \::/    /                \:|   |                  \::/    /", 10, YELLOW, x, y + 19*factor)        
+        self.show_text(self.screen, "         ~~                       \/____/                                   \/____/                  \|___|                   \/____/", 10, YELLOW, x, y + 20*factor)
+        self.show_text(self.screen, "YOU WON, closing game...", 20, GREEN, x+20, y + 23*factor)
+        pg.display.flip()
 
 #way to detect if any key on the keyboard is pressed
     #Coach Cozort's Code referenced
@@ -125,24 +156,31 @@ class Game:
         self.playing = True
         while self.playing: #and not self.game_paused:
             self.dt = self.clock.tick(FPS) / 1000
-            self.timer -= 0.00350625
+            self.timer -= 0.00550625
             self.events()
             self.update()
             self.draw()
             pg.display.flip()
-            if g.player.score == 36 or self.player.lives == 0 or int(self.timer) == 0:
+            if self.player.lives == 0 or int(self.timer) == 0:
                 g.display_end_screen()
+                time.sleep(5)
+                self.quit()
+            if g.player.score == 36:
+                g.display_win_Screen
                 time.sleep(5)
                 self.quit()
             # input process output
   
     # initializing all variables and setting up groups and instantiating classes
     def new(self):
+        pg.time.set_timer(pg.USEREVENT, 599)
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
         self.enemies = pg.sprite.Group()
         self.player = pg.sprite.Group()
         self.coins = pg.sprite.Group()
+        self.invincibility = pg.sprite.Group()
+        self.ptw = pg.sprite.Group()
         for row, tiles in enumerate(self.map_data):
             #print(row)
             print(tiles)
@@ -163,13 +201,16 @@ class Game:
 #    def topbar(self):
 #        while self.playing:
 
+    #Quits pygame window and closes it
     def quit(self):
         pg.quit()
         sys.exit()
 
+    #
     def update(self):
         self.all_sprites.update()
-        # single line updates all
+        #self.cooldown.ticking()
+        # single line updates all sprites, is repeatedly called
 
     #not actually used anymore, but this would draw a grid at the borders of every square in the game
     def draw_grid(self):
@@ -178,6 +219,7 @@ class Game:
         for y in range(0, WIDTH, TILESIZE):
             pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
 
+    #When called, it repeatedly draws everything in the game
     def draw(self):
         self.screen.fill(BGCOLOR)
 #        self.draw_grid()
@@ -185,9 +227,10 @@ class Game:
         #added the text here so it gets drawn over the other elements! (issue in previous push)
         self.show_text(self.screen, "Score: " + str(self.player.score), 25, RED, 75, 0)
         self.show_text(self.screen, "Time Left " + str(int(self.timer)), 25, RED, 300, 0)
-        self.show_text(self.screen, "EAT ALL THE COINS", 25, RED, 550, 0)
-        self.show_text(self.screen, "HP " + str(self.player.lives), 25, RED, 775, 0)
-        self.show_text(self.screen, "Speed " + str(200 + (self.player.score*10)), 25, RED, 900, 0)
+        #self.show_text(self.screen, "EAT ALL THE COINS", 25, RED, 550, 0)
+        self.show_text(self.screen, "HP " + str(self.player.lives), 25, RED, 550, 0)
+        self.show_text(self.screen, "Speed " + str(200 + (self.player.score*10)), 25, RED, 700, 0)
+        self.show_text(self.screen, "Primegem" + str(self.player.primegem), 25, RED, 900, 0)
         pg.display.flip()
 
     # essentially all inputs we give 
