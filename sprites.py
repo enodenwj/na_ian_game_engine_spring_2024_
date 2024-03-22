@@ -29,7 +29,7 @@ class Player(Sprite):
         self.inv = False
         self.ptw = False
         self.powertime = 1
-        self.primegem = 1
+        self.primegem = 1000000
         self.clock = pg.time.Clock()
     
     #A pygame-specific thing, this lets you detect the key pressed 

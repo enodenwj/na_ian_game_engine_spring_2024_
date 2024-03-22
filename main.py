@@ -167,7 +167,7 @@ class Game:
                 time.sleep(5)
                 self.quit()
             if g.player.score == 36:
-                g.display_win_Screen
+                g.display_win_Screen()
                 time.sleep(5)
                 self.quit()
             # input process output
