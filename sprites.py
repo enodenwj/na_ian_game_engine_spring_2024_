@@ -176,12 +176,14 @@ class Enemy(Sprite):
         self.y = y * TILESIZE
         self.vx, self.vy = ENEMY_SPEED, 0
  
+    #detects a collision with wall sprite
     def collide_with_walls(self):
         hits = pg.sprite.spritecollide(self, self.game.walls, False)
         if hits:
             self.vx *= -1 #this is the source of the left and right movement
             self.rect.x = self.x
 
+    #continuously called, this changes player position and calls the check collision code
     def update(self):
         self.x += self.vx * self.game.dt
         self.y += self.vy * self.game.dt
@@ -205,13 +207,15 @@ class Vertenemy(Sprite):
         self.x = x * TILESIZE
         self.y = y * TILESIZE
         self.vx, self.vy = 0, ENEMY_SPEED/1.5
- 
+
+    #same code as the player sprite, detects wall collision
     def collide_with_walls(self):
         hits = pg.sprite.spritecollide(self, self.game.walls, False)
         if hits:
             self.vy *= -1 #this is the source of the left and right movement
             self.rect.y = self.y
 
+    #Continuously called, changes enemy position and runs detect wall collision code
     def update(self):
         self.x += self.vx * self.game.dt
         self.y += self.vy * self.game.dt
