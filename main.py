@@ -7,6 +7,9 @@
 #Rules: Walls stop the player, enemies kill the player (very minimal hitpoints, almost instant death)
 #Feedback: The hitpoints, player speed are shown in game, and other statuses
 
+#Goals: virus, rhythm, sprite images
+#homework: 2 ppl 5 things abt fun game
+
 #importing libraries including our own
 import pygame as pg
 import sys
@@ -33,6 +36,7 @@ class Game:
     # loading save game data and other things
     def load_data(self):
         game_folder = path.dirname(__file__)
+        #self.img_folder = path.join(self.game_folder, 'images')
         self.map_data = []
         with open(path.join(game_folder, 'map.txt'), 'rt',) as f:
             for line in f:

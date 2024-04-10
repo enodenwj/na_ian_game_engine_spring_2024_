@@ -51,13 +51,14 @@ class Player(Sprite):
             # in order to reduce diagonal speed
         if keys[pg.K_SPACE] and self.primegem > 160:
             self.primegem -= 160
+
             print (str(self.primegem))
             randompull = random.choice(wish)
             print (randompull)
             if randompull == 20:
                 self.inv = True 
                 self.ptw = True
-                self.image.fill(HMSON7)
+                self.image.fill(D_RED)
                 print("MOREGAMBLE")
 
     #Essentially detects walls on both axes, then stops the velocity in that direction
