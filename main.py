@@ -7,8 +7,7 @@
 #Rules: Walls stop the player, enemies kill the player (very minimal hitpoints, almost instant death)
 #Feedback: The hitpoints, player speed are shown in game, and other statuses
 
-#Goals: virus, rhythm, sprite images
-#homework: 2 ppl 5 things abt fun game
+#BetaGoal: New levels and pernament progression of items 
 
 #importing libraries including our own
 import pygame as pg
