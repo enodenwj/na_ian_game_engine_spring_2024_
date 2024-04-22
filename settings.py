@@ -16,7 +16,6 @@ RED = (255, 0,0)
 LIGHTBLUE = (30, 40, 50)
 D_RED = (200, 70, 80)
 ENEMY_DIR = True
-SPRITESHEET = "theBell.png"
 
 BGCOLOR = (BLACK)
 STARTBG=(0,0,0)
