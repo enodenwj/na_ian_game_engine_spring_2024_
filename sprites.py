@@ -6,6 +6,7 @@ import pygame as pg
 from pygame.sprite import Sprite
 import random
 import time
+import threading
 from os import path
 
 #animated sprite stuff
@@ -13,6 +14,13 @@ dir = path.dirname(__file__)
 img_dir = path.join(dir, 'images')
 game_folder = path.dirname(__file__)
 img_folder = path.join(game_folder, 'images')
+
+def countdown_timer(seconds, self):
+    while seconds:
+        time.sleep(1)
+        seconds -= 1
+        print(self.tptimer)
+    self.tptimer = 1
 
 # Coach Cozort's Code
 # sets up file with multiple images...
@@ -65,6 +73,7 @@ class Player(Sprite):
         self.ptw = False
         self.powertime = 1
         self.primegem = 1
+        self.tptimer = 1
         self.clock = pg.time.Clock()
     
     #A pygame-specific thing, this lets you detect the key pressed 
@@ -132,7 +141,11 @@ class Player(Sprite):
             if str(hits[0].__class__.__name__) == "Coin":
                 self.score += 1
                 self.primegem += 50
-
+            elif str(hits[0].__class__.__name__) == "WallTP":
+                if self.tptimer > 0:
+                    self.tptimer -= 1
+                timer_thread = threading.Thread(target=countdown_timer, args=(3, self))
+                timer_thread.start()
 #start animated sprite code    
     def load_images(self):
         self.standing_frames = [self.spritesheet.get_image(0, 0, 32, 32),
@@ -163,7 +176,6 @@ class Player(Sprite):
             self.image = self.jump_frame
             self.rect = self.image.get_rect()
             self.rect.bottom = bottom
-
 #end animated sprite code
 
     #continuous detection of these states
@@ -172,16 +184,22 @@ class Player(Sprite):
         self.get_keys()
         self.x += self.vx * self.game.dt
         self.y += self.vy * self.game.dt
-        self.rect.x = self.x
-        self.collide_with_walls('x')
-        self.rect.y = self.y
-        self.collide_with_walls('y')
+        if self.tptimer == 0:
+            #chatGPT referenced
+            self.rect.x = (0)
+            self.rect.y = (0)
+        else:
+            self.rect.x = self.x
+            self.collide_with_walls('x')
+            self.rect.y = self.y
+            self.collide_with_walls('y')
         if self.collide_with_enemies(False):
             if self.lives == 0:
                 self.game.player.kill()
                 print('you died')
 #Coach Cozort's Code
-        self.collide_with_group(self.game.coins, True)
+        self.collide_with_group(self.game.coins,True)
+        self.collide_with_group(self.game.walltp,True)    
 
 # Create a wall class
 class Wall(Sprite):
@@ -228,6 +246,19 @@ class Coin(Sprite):
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
         #same as the enemy/player classes, but very stripped down.
+
+class WallTP(Sprite):
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites, game.walltp
+        Sprite.__init__(self,self.groups)
+        self.game = game
+        self.image = pg.Surface((TILESIZE, TILESIZE))
+        self.image.fill(IDK)
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y        
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
 
 #We made a basic enemy as a group
 class Enemy(Sprite):
