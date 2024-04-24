@@ -15,6 +15,7 @@ img_dir = path.join(dir, 'images')
 game_folder = path.dirname(__file__)
 img_folder = path.join(game_folder, 'images')
 
+#referenced ChatGPT
 def countdown_timer(seconds, self):
     while seconds:
         time.sleep(1)
@@ -81,13 +82,17 @@ class Player(Sprite):
         self.vx, self.vy  = 0, 0  
         keys = pg.key.get_pressed()
         if keys[pg.K_LEFT] or keys[pg.K_a]:
-            self.vx = -PLAYER_SPEED - (self.score * 10)
+            if self.tptimer == 1:
+                self.vx = -PLAYER_SPEED - (self.score * 10)
         if keys[pg.K_RIGHT] or keys[pg.K_d]:
-            self.vx = PLAYER_SPEED + (self.score * 10)
+            if self.tptimer == 1:
+                self.vx = PLAYER_SPEED + (self.score * 10)
         if keys[pg.K_UP] or keys[pg.K_w]:
-            self.vy = -PLAYER_SPEED - (self.score * 10)
+            if self.tptimer == 1:
+                self.vy = -PLAYER_SPEED - (self.score * 10)
         if keys[pg.K_DOWN] or keys[pg.K_s]:
-            self.vy = PLAYER_SPEED + (self.score * 10)
+            if self.tptimer == 1:
+                self.vy = PLAYER_SPEED + (self.score * 10)
         if self.vx != 0 and self.vy != 0:
             # sqrt(2)/2
             self.vx *= 0.7071
@@ -185,7 +190,6 @@ class Player(Sprite):
         self.x += self.vx * self.game.dt
         self.y += self.vy * self.game.dt
         if self.tptimer == 0:
-            #chatGPT referenced
             self.rect.x = (0)
             self.rect.y = (0)
         else:
