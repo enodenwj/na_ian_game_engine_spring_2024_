@@ -251,13 +251,14 @@ class Coin(Sprite):
         self.rect.y = y * TILESIZE
         #same as the enemy/player classes, but very stripped down.
 
+# this is the class for the trap, like coins.
 class WallTP(Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.walltp
         Sprite.__init__(self,self.groups)
         self.game = game
         self.image = pg.Surface((TILESIZE, TILESIZE))
-        self.image.fill(IDK)
+        self.image.fill(DARKGREY)
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y        

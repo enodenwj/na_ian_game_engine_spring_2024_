@@ -1,13 +1,11 @@
 #This file was created by: Ian Na
 
-#Game design ideas: timer, enemy, start/end screen, gamble
+#Game design goals: timer, enemy, start/end screen, gamble, movement trap, animated sprite(done)
 
 #Freedom: true, x,y movement
 #Goals: Eat all the coins to trigger game over
 #Rules: Walls stop the player, enemies kill the player (very minimal hitpoints, almost instant death)
 #Feedback: The hitpoints, player speed are shown in game, and other statuses
-
-#BetaGoal: New levels and pernament progression of items 
 
 #importing libraries including our own
 import pygame as pg
@@ -236,8 +234,10 @@ class Game:
         self.show_text(self.screen, "Time Left " + str(int(self.timer)), 25, RED, 300, 0)
         #self.show_text(self.screen, "EAT ALL THE COINS", 25, RED, 550, 0)
         self.show_text(self.screen, "HP " + str(self.player.lives), 25, RED, 560, 0)
+        if self.player.tptimer == 0:
+            self.show_text(self.screen, "TRAPPED ", 35, RED, 560, 380)
         self.show_text(self.screen, "Speed " + str(200 + (self.player.score*10)), 25, RED, 700, 0)
-        self.show_text(self.screen, "Primegem " + str(self.player.primegem), 25, RED, 900, 0)
+        self.show_text(self.screen, "Primegem " + str(self.player.primegem), 25, RED, 900, 0) 
         pg.display.flip()
 
     #this tracks pressing the x button on window
