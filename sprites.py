@@ -152,6 +152,7 @@ class Player(Sprite):
                 timer_thread = threading.Thread(target=countdown_timer, args=(3, self))
                 timer_thread.start()
 #start animated sprite code    
+#this sets the boundaries for the frame fropm the spritesheet
     def load_images(self):
         self.standing_frames = [self.spritesheet.get_image(0, 0, 32, 32),
                                 self.spritesheet.get_image(32, 0, 32, 32)]
@@ -165,7 +166,7 @@ class Player(Sprite):
             self.walk_frames_l.append(pg.transform.flip(frame, True, False))
         self.jump_frame = self.spritesheet.get_image(256, 0, 128, 128)
         self.jump_frame.set_colorkey(BLACK)
-
+#this is the loop that runs on update, which changefs the frame when a certain time has passed
     def animate(self):
         now = pg.time.get_ticks()
         if not self.jumping and not self.walking:
