@@ -23,6 +23,13 @@ def countdown_timer(seconds, self):
         print(self.tptimer)
     self.tptimer = 1
 
+def wish_timer(seconds, self):
+    while seconds:
+        time.sleep(0.25)
+        seconds -= 1
+        print(self.wishtimer)
+    self.wishtimer = 1
+
 # Coach Cozort's Code
 # sets up file with multiple images...
 class Spritesheet:
@@ -40,6 +47,8 @@ class Spritesheet:
 
 wish = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100]
 SPRITESHEET = "ROFL.png"
+shop = 1
+pulls = 0
 
 # Create a player class
 class Player(Sprite):
@@ -75,10 +84,12 @@ class Player(Sprite):
         self.powertime = 1
         self.primegem = 1
         self.tptimer = 1
+        self.wishtimer = 1
         self.clock = pg.time.Clock()
     
     #A pygame-specific thing, this lets you detect the key pressed 
     def get_keys(self):
+        global pulls
         self.vx, self.vy  = 0, 0  
         keys = pg.key.get_pressed()
         if keys[pg.K_LEFT] or keys[pg.K_a]:
@@ -99,11 +110,14 @@ class Player(Sprite):
             self.vy *= 0.7071
             # in order to reduce diagonal speed
         now = pg.time.get_ticks()
-        if keys[pg.K_SPACE] and self.primegem > 160:
-            self.primegem -= 160
-            print (str(self.primegem))
+        if keys[pg.K_SPACE] and pulls > 0 and self.wishtimer > 0:
+            pulls -= 1
+            self.wishtimer -= 1
+            timer_thread = threading.Thread(target=wish_timer, args=(1, self))
+            timer_thread.start()
+            print (str(pulls))
             randompull = random.choice(wish)
-            print (randompull)
+            print ("result" + str(randompull))
             if randompull == 20:
                 self.inv = True 
                 self.ptw = True
@@ -221,6 +235,44 @@ class Wall(Sprite):
         self.y = y
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
+
+class Shop(Sprite):
+    # Initializing the wall class with attributes.
+    def __init__ (self,game,x,y):
+        self.groups = game.all_sprites, game.walls
+        Sprite.__init__(self, self.groups)
+        self.game = game
+        # create a square
+        self.image = pg.Surface((TILESIZE,TILESIZE))
+        self.image.fill(GREEN)
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
+        self.items = 0
+
+#add something here for mouse input, and then it will change shop variable to 1 and start all the other things.
+#purchase: wishes, 
+
+    def get_keys(self):
+        global pulls 
+        keys = pg.key.get_pressed()
+        if keys[pg.K_1]:
+            pulls += 1
+            self.items += 1
+            print (str(pulls))
+        if keys[pg.K_2]:
+            self.items += 1
+        if keys[pg.K_3]:
+            self.items += 1
+        if keys[pg.K_4]:
+            self.items += 1
+
+    def update(self):
+        if shop == 1:
+            self.get_keys()
+        print('this is a shop item purchase. thanks')
 
 # Create a start block class, like walls
 class StartBlock(Sprite):

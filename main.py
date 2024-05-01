@@ -7,6 +7,11 @@
 #Rules: Walls stop the player, enemies kill the player (very minimal hitpoints, almost instant death)
 #Feedback: The hitpoints, player speed are shown in game, and other statuses
 
+#final goal: shop for buffs and gambling... paypal link
+#make something like the startscreen but for a shop, then stop updating game when you clock on a sprite that will be the button to open shop
+#shop closes after you buy 5 items you can buy 5 and only 5 items.
+#items will be binded to keys, so the code can easily just exist all in the sprite that will be the button to open shop.
+
 #importing libraries including our own
 import pygame as pg
 import sys
@@ -137,6 +142,16 @@ class Game:
         self.show_text(self.screen, "        \::/____/                \::/    /         ~~                      \::/    /                \:|   |                  \::/    /", 10, YELLOW, x, y + 19*factor)        
         self.show_text(self.screen, "         ~~                       \/____/                                   \/____/                  \|___|                   \/____/", 10, YELLOW, x, y + 20*factor)
         self.show_text(self.screen, "YOU WON, closing game...", 20, GREEN, x+20, y + 23*factor)
+        pg.display.flip()
+
+    def display_shop_screen(self):
+        self.screen.fill(STARTBG)
+        x = WIDTH/2
+        y = HEIGHT/4
+        factor = 15 # factor added for easy modification
+        self.show_text(self.screen, "this is the shop", 20, YELLOW, x, y+factor )
+        self.show_text(self.screen, "Press 1 for 1x interlaced destiny", 20, YELLOW, x, y+1*factor )
+        self.show_text(self.screen, "Press 2 for invincibility", 20, YELLOW, x, y+2*factor )
         pg.display.flip()
 
 #way to detect if any key on the keyboard is pressed
