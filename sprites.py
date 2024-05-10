@@ -100,6 +100,7 @@ class Player(Sprite):
         self.items = 0
         self.shop1 = 0
         self.shop = 0
+        self.win = "NO"
         self.shoptimer = 1
         self.pulls = 0
         self.wishshoptimer = 1
@@ -172,6 +173,7 @@ class Player(Sprite):
             if randompull == 20:
                 self.inv = True 
                 self.ptw = True
+                self.win = "YES"
                 self.image.fill(D_RED)
                 print("you won")
 
@@ -211,7 +213,7 @@ class Player(Sprite):
             if str(hits[0].__class__.__name__) == "Coin":
                 self.score += 1
                 self.primegem += 60
-            elif str(hits[0].__class__.__name__) == "WallTP":
+            elif str(hits[0].__class__.__name__) == "WallTP" and self.inv == False:
                 if self.tptimer > 0:
                     self.tptimer -= 1
                 timer_thread = threading.Thread(target=countdown_timer, args=(3, self))

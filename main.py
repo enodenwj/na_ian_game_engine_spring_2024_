@@ -149,13 +149,20 @@ class Game:
         x = WIDTH/2
         y = HEIGHT/4
         factor = 15 # factor added for easy modification
-        self.show_text(self.screen, "this is the shop", 20, YELLOW, x, y+factor )
-        self.show_text(self.screen, "Press 1 for 1x interlaced destiny", 20, YELLOW, x, y+2.5*factor )
-        self.show_text(self.screen, "Press 2 for invincibility", 20, YELLOW, x, y+4*factor )
+        self.show_text(self.screen, "Score: " + str(self.player.score), 25, RED, 75, 0)
+        self.show_text(self.screen, "Time Left " + str(int(self.timer)), 25, RED, 300, 0)
+        #self.show_text(self.screen, "EAT ALL THE COINS", 25, RED, 550, 0)
+        self.show_text(self.screen, "HP " + str(self.player.lives), 25, RED, 560, 0)
+        self.show_text(self.screen, "Speed " + str(200 + (self.player.score*10)), 25, RED, 700, 0)
+        self.show_text(self.screen, "Primegem " + str(self.player.primegem), 25, RED, 900, 0) 
+        self.show_text(self.screen, "||||||||||||||||||||||||||||||||||SHOP||||||||||||||||||||||||||||||||||||", 20, YELLOW, x, y+(-8)*factor )
+        self.show_text(self.screen, "Press 1 for 1x interlaced destiny", 20, YELLOW, x, y+(-6)*factor )
+        self.show_text(self.screen, "Press 2 for invincibility", 20, YELLOW, x, y+(-4)*factor )
+        self.show_text(self.screen, "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||", 20, YELLOW, x, y+(-2)*factor )
         self.show_text(self.screen, "Press SPACE to pull x1", 20, YELLOW, x, y+6*factor )
-        self.show_text(self.screen, "invincibility: NO", 20, YELLOW, x, y+10*factor )
-        self.show_text(self.screen, "Interlaced Destiny: " + str(g.player.pulls) + " x", 20, YELLOW, x, y+12*factor )
-        self.show_text(self.screen, "YT Link for extra primegems: https://www.youtube.com/watch?v=dQw4w9WgXcQ", 20, YELLOW, x, y+20*factor )
+        self.show_text(self.screen, "OP: " + g.player.win, 20, YELLOW, x, y+14*factor )
+        self.show_text(self.screen, "Interlaced Destiny: " + str(g.player.pulls) + " x", 20, YELLOW, x, y+16*factor )
+        self.show_text(self.screen, "YT Link for extra primegems: https://www.youtube.com/watch?v=dQw4w9WgXcQ", 20, YELLOW, x, y+36*factor )
         pg.display.flip()
 
 #way to detect if any key on the keyboard is pressed
