@@ -30,6 +30,20 @@ def wish_timer(seconds, self):
         print(self.wishtimer)
     self.wishtimer = 1
 
+def shop_timer(seconds, self):
+    while seconds:
+        time.sleep(0.25)
+        seconds -= 1
+        print(self.shoptimer)
+    self.shoptimer = 1
+
+def wish_shop_timer(seconds, self):
+    while seconds:
+        time.sleep(0.25)
+        seconds -= 1
+        print(self.wishshoptimer)
+    self.wishshoptimer = 1
+
 # Coach Cozort's Code
 # sets up file with multiple images...
 class Spritesheet:
@@ -47,8 +61,6 @@ class Spritesheet:
 
 wish = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100]
 SPRITESHEET = "ROFL.png"
-shop = 1
-pulls = 0
 
 # Create a player class
 class Player(Sprite):
@@ -85,37 +97,76 @@ class Player(Sprite):
         self.primegem = 1
         self.tptimer = 1
         self.wishtimer = 1
+        self.items = 0
+        self.shop1 = 0
+        self.shop = 0
+        self.shoptimer = 1
+        self.pulls = 0
+        self.wishshoptimer = 1
         self.clock = pg.time.Clock()
     
     #A pygame-specific thing, this lets you detect the key pressed 
     def get_keys(self):
-        global pulls
+        global PULLS
+        global SHOP
         self.vx, self.vy  = 0, 0  
         keys = pg.key.get_pressed()
-        if keys[pg.K_LEFT] or keys[pg.K_a]:
-            if self.tptimer == 1:
-                self.vx = -PLAYER_SPEED - (self.score * 10)
-        if keys[pg.K_RIGHT] or keys[pg.K_d]:
-            if self.tptimer == 1:
-                self.vx = PLAYER_SPEED + (self.score * 10)
-        if keys[pg.K_UP] or keys[pg.K_w]:
-            if self.tptimer == 1:
-                self.vy = -PLAYER_SPEED - (self.score * 10)
-        if keys[pg.K_DOWN] or keys[pg.K_s]:
-            if self.tptimer == 1:
-                self.vy = PLAYER_SPEED + (self.score * 10)
+
+        if keys[pg.K_5] and self.shoptimer == 1:
+            self.shop1 += 1
+            #chatgpt referenced for odd/even verification
+            if self.shop1 % 2 == 0:
+                self.shop = 0
+            else:
+                self.shop = 1
+            self.shoptimer -= 1
+            timer_thread = threading.Thread(target=shop_timer, args=(1, self))
+            timer_thread.start()            
+        if self.shop == 1:
+            if keys[pg.K_1] and self.primegem > 159 and self.wishshoptimer == 1:
+                PULLS += 1
+                self.pulls += 1
+                self.primegem -= 160
+                self.items += 1
+                print('this is a shop item purchase. thanks')
+                print (str(PULLS))
+                self.wishshoptimer -= 1
+                timer_thread = threading.Thread(target=wish_shop_timer, args=(1, self))
+                timer_thread.start()
+            if keys[pg.K_2]:
+                self.items += 1 
+            if keys[pg.K_3]:
+                self.items += 1
+            if keys[pg.K_4]:
+                self.items += 1
+
+        if SHOP == 0:
+            if keys[pg.K_LEFT] or keys[pg.K_a]:
+                if self.tptimer == 1:
+                    self.vx = -PLAYER_SPEED - (self.score * 10)
+            if keys[pg.K_RIGHT] or keys[pg.K_d]:
+                if self.tptimer == 1:
+                    self.vx = PLAYER_SPEED + (self.score * 10)
+            if keys[pg.K_UP] or keys[pg.K_w]:
+                if self.tptimer == 1:
+                    self.vy = -PLAYER_SPEED - (self.score * 10)
+            if keys[pg.K_DOWN] or keys[pg.K_s]:
+                if self.tptimer == 1:
+                    self.vy = PLAYER_SPEED + (self.score * 10)
+
         if self.vx != 0 and self.vy != 0:
             # sqrt(2)/2
             self.vx *= 0.7071
             self.vy *= 0.7071
             # in order to reduce diagonal speed
         now = pg.time.get_ticks()
-        if keys[pg.K_SPACE] and pulls > 0 and self.wishtimer > 0:
-            pulls -= 1
+        if keys[pg.K_SPACE] and PULLS > 0 and self.wishtimer > 0:
+            PULLS -= 1
+            self.pulls -= 1
             self.wishtimer -= 1
             timer_thread = threading.Thread(target=wish_timer, args=(1, self))
             timer_thread.start()
-            print (str(pulls))
+            print (str(PULLS))
             randompull = random.choice(wish)
             print ("result" + str(randompull))
             if randompull == 20:
@@ -159,7 +210,7 @@ class Player(Sprite):
         if hits:
             if str(hits[0].__class__.__name__) == "Coin":
                 self.score += 1
-                self.primegem += 50
+                self.primegem += 60
             elif str(hits[0].__class__.__name__) == "WallTP":
                 if self.tptimer > 0:
                     self.tptimer -= 1
@@ -239,7 +290,7 @@ class Wall(Sprite):
 class Shop(Sprite):
     # Initializing the wall class with attributes.
     def __init__ (self,game,x,y):
-        self.groups = game.all_sprites, game.walls
+        self.groups = game.all_sprites, game.shop
         Sprite.__init__(self, self.groups)
         self.game = game
         # create a square
@@ -255,24 +306,30 @@ class Shop(Sprite):
 #add something here for mouse input, and then it will change shop variable to 1 and start all the other things.
 #purchase: wishes, 
 
-    def get_keys(self):
-        global pulls 
+    def get_keys1(self):
+        global SHOP
+        global PULLS
         keys = pg.key.get_pressed()
-        if keys[pg.K_1]:
-            pulls += 1
-            self.items += 1
-            print (str(pulls))
-        if keys[pg.K_2]:
-            self.items += 1
-        if keys[pg.K_3]:
-            self.items += 1
-        if keys[pg.K_4]:
-            self.items += 1
+        if keys[pg.K_5]:
+            SHOP = 1
+        if SHOP == 1:
+            if keys[pg.K_1]:
+                PULLS += 1
+                self.items += 1
+                print('this is a shop item purchase. thanks')
+                print (str(PULLS))
+            if keys[pg.K_2]:
+                self.items += 1 
+            if keys[pg.K_3]:
+                self.items += 1
+            if keys[pg.K_4]:
+                self.items += 1
 
     def update(self):
-        if shop == 1:
-            self.get_keys()
-        print('this is a shop item purchase. thanks')
+        global SHOP
+        self.get_keys1()
+        if self.items == 5:
+            SHOP = 0
 
 # Create a start block class, like walls
 class StartBlock(Sprite):

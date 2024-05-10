@@ -150,8 +150,12 @@ class Game:
         y = HEIGHT/4
         factor = 15 # factor added for easy modification
         self.show_text(self.screen, "this is the shop", 20, YELLOW, x, y+factor )
-        self.show_text(self.screen, "Press 1 for 1x interlaced destiny", 20, YELLOW, x, y+1*factor )
-        self.show_text(self.screen, "Press 2 for invincibility", 20, YELLOW, x, y+2*factor )
+        self.show_text(self.screen, "Press 1 for 1x interlaced destiny", 20, YELLOW, x, y+2.5*factor )
+        self.show_text(self.screen, "Press 2 for invincibility", 20, YELLOW, x, y+4*factor )
+        self.show_text(self.screen, "Press SPACE to pull x1", 20, YELLOW, x, y+6*factor )
+        self.show_text(self.screen, "invincibility: NO", 20, YELLOW, x, y+10*factor )
+        self.show_text(self.screen, "Interlaced Destiny: " + str(g.player.pulls) + " x", 20, YELLOW, x, y+12*factor )
+        self.show_text(self.screen, "YT Link for extra primegems: https://www.youtube.com/watch?v=dQw4w9WgXcQ", 20, YELLOW, x, y+20*factor )
         pg.display.flip()
 
 #way to detect if any key on the keyboard is pressed
@@ -172,11 +176,13 @@ class Game:
     def run(self):
         self.playing = True
         while self.playing: #and not self.game_paused:
+            global SHOP
             self.dt = self.clock.tick(FPS) / 1000
             self.timer -= 0.00550625
             self.events()
             self.update()
-            self.draw()
+            if g.player.shop == 0:
+                self.draw()
             pg.display.flip()
             if self.player.lives == 0 or int(self.timer) == 0:
                 g.display_end_screen()
@@ -186,6 +192,8 @@ class Game:
                 g.display_win_screen()
                 time.sleep(5)
                 self.quit()
+            if g.player.shop == 1:
+                g.display_shop_screen()
             # input process output
   
     # initializing all variables and setting up groups and instantiating classes
@@ -199,6 +207,7 @@ class Game:
         self.invincibility = pg.sprite.Group()
         self.ptw = pg.sprite.Group()
         self.walltp = pg.sprite.Group()
+        self.shop = pg.sprite.Group()
         for row, tiles in enumerate(self.map_data):
             #print(row)
             print(tiles)
@@ -217,9 +226,8 @@ class Game:
                     Vertenemy(self, col, row)
                 if tile == "T":
                     WallTP(self, col, row)
-
-#    def topbar(self):
-#        while self.playing:
+                if tile == "S":
+                    self.shop = Shop(self, col, row)
 
     #Quits pygame window and closes it
     def quit(self):
@@ -241,28 +249,26 @@ class Game:
 
     #When called, it repeatedly draws everything in the game
     def draw(self):
-        self.screen.fill(BGCOLOR)
-#        self.draw_grid()
-        self.all_sprites.draw(self.screen)
-        #added the text here so it gets drawn over the other elements! (issue in previous push)
-        self.show_text(self.screen, "Score: " + str(self.player.score), 25, RED, 75, 0)
-        self.show_text(self.screen, "Time Left " + str(int(self.timer)), 25, RED, 300, 0)
-        #self.show_text(self.screen, "EAT ALL THE COINS", 25, RED, 550, 0)
-        self.show_text(self.screen, "HP " + str(self.player.lives), 25, RED, 560, 0)
-        if self.player.tptimer == 0:
-            self.show_text(self.screen, "TRAPPED ", 35, RED, 560, 380)
-        self.show_text(self.screen, "Speed " + str(200 + (self.player.score*10)), 25, RED, 700, 0)
-        self.show_text(self.screen, "Primegem " + str(self.player.primegem), 25, RED, 900, 0) 
-        pg.display.flip()
+        if SHOP == 0:
+            self.screen.fill(BGCOLOR)
+    #        self.draw_grid()
+            self.all_sprites.draw(self.screen)
+            #added the text here so it gets drawn over the other elements! (issue in previous push)
+            self.show_text(self.screen, "Score: " + str(self.player.score), 25, RED, 75, 0)
+            self.show_text(self.screen, "Time Left " + str(int(self.timer)), 25, RED, 300, 0)
+            #self.show_text(self.screen, "EAT ALL THE COINS", 25, RED, 550, 0)
+            self.show_text(self.screen, "HP " + str(self.player.lives), 25, RED, 560, 0)
+            if self.player.tptimer == 0:
+                self.show_text(self.screen, "TRAPPED ", 35, RED, 560, 380)
+            self.show_text(self.screen, "Speed " + str(200 + (self.player.score*10)), 25, RED, 700, 0)
+            self.show_text(self.screen, "Primegem " + str(self.player.primegem), 25, RED, 900, 0) 
+            pg.display.flip()
 
     #this tracks pressing the x button on window
     def events(self):
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.quit()
-
-    def show_go_screen(self):
-        pass
 
 #I have instantiated the game
 g = Game()
