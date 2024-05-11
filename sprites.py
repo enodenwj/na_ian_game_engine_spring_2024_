@@ -44,6 +44,14 @@ def wish_shop_timer(seconds, self):
         print(self.wishshoptimer)
     self.wishshoptimer = 1
 
+def wish_inv_timer(seconds, self):
+    while seconds:
+        time.sleep(1)
+        seconds -= 1
+        print(self.wishshoptimer)
+    self.wishinvtimer = 1
+    self.inv = False
+
 # Coach Cozort's Code
 # sets up file with multiple images...
 class Spritesheet:
@@ -97,6 +105,7 @@ class Player(Sprite):
         self.primegem = 1
         self.tptimer = 1
         self.wishtimer = 1
+        self.wishinvtimer = 1
         self.items = 0
         self.shop1 = 0
         self.shop = 0
@@ -134,12 +143,19 @@ class Player(Sprite):
                 self.wishshoptimer -= 1
                 timer_thread = threading.Thread(target=wish_shop_timer, args=(1, self))
                 timer_thread.start()
-            if keys[pg.K_2]:
-                self.items += 1 
+            if keys[pg.K_2] and self.primegem > 600 and self.wishinvtimer == 1:
+                self.items += 1
+                self.wishinvtimer = 0
+                self.inv = True
+                self.primegem -= 600
+                timer_thread = threading.Thread(target=wish_inv_timer, args=(10, self))
+                timer_thread.start()
             if keys[pg.K_3]:
                 self.items += 1
             if keys[pg.K_4]:
                 self.items += 1
+            if keys[pg.K_i] and keys[pg.K_a] and keys[pg.K_n]:
+                self.primegem += 100000
 
         if SHOP == 0:
             if keys[pg.K_LEFT] or keys[pg.K_a]:
@@ -154,6 +170,8 @@ class Player(Sprite):
             if keys[pg.K_DOWN] or keys[pg.K_s]:
                 if self.tptimer == 1:
                     self.vy = PLAYER_SPEED + (self.score * 10)
+            if keys[pg.K_i] and keys[pg.K_a] and keys[pg.K_n]:
+                self.primegem += 100000
 
         if self.vx != 0 and self.vy != 0:
             # sqrt(2)/2
@@ -171,7 +189,6 @@ class Player(Sprite):
             randompull = random.choice(wish)
             print ("result" + str(randompull))
             if randompull == 20:
-                self.inv = True 
                 self.ptw = True
                 self.win = "YES"
                 self.image.fill(D_RED)
@@ -201,7 +218,7 @@ class Player(Sprite):
     #rapidly decreases HP based on collision with an enemy
     def collide_with_enemies(self,kill):
         hits = pg.sprite.spritecollide(self, self.game.enemies, kill)
-        if hits and self.inv == False:
+        if hits and self.inv == False and self.ptw == False:
             self.lives -=2 #a very short forgiveness window between player enemy contact and player death
             print(self.lives)
             return True
@@ -213,7 +230,7 @@ class Player(Sprite):
             if str(hits[0].__class__.__name__) == "Coin":
                 self.score += 1
                 self.primegem += 60
-            elif str(hits[0].__class__.__name__) == "WallTP" and self.inv == False:
+            elif str(hits[0].__class__.__name__) == "WallTP" and self.ptw == False:
                 if self.tptimer > 0:
                     self.tptimer -= 1
                 timer_thread = threading.Thread(target=countdown_timer, args=(3, self))
