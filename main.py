@@ -157,12 +157,14 @@ class Game:
         self.show_text(self.screen, "||||||||||||||||||||||||||||||||||SHOP||||||||||||||||||||||||||||||||||||", 20, YELLOW, x, y+(-8)*factor )
         self.show_text(self.screen, "(primegem x160) Press 1 for 1x interlaced destiny", 20, YELLOW, x, y+(-6)*factor )
         self.show_text(self.screen, "(Primegem x600) Press 2 for 10s invincibility", 20, YELLOW, x, y+(-4)*factor )
+        self.show_text(self.screen, "(Primegem x1000) Press 3 for trap immunity", 20, YELLOW, x, y+(-2)*factor )        
         self.show_text(self.screen, "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||", 20, YELLOW, x, y+(-2)*factor )
         self.show_text(self.screen, "Press SPACE to pull x1", 20, YELLOW, x, y+6*factor )
         self.show_text(self.screen, "OP: " + str(g.player.ptw), 20, YELLOW, x, y+16*factor )
         self.show_text(self.screen, "INV: " + str(g.player.inv), 20, YELLOW, x, y+18*factor )
+        self.show_text(self.screen, "TRAP: " + str(g.player.trap), 20, YELLOW, x, y+(20)*factor )
         self.show_text(self.screen, "Interlaced Destiny: " + str(g.player.pulls) + " x", 20, YELLOW, x, y+14*factor )
-        self.show_text(self.screen, "YT Link for extra primegems: https://www.youtube.com/watch?v=dQw4w9WgXcQ", 20, YELLOW, x, y+36*factor )
+        self.show_text(self.screen, "Link for extra primegems: h̷̨̛̪̤̘̤́́̔͂̿͂̍t̸̯͍͌̓̑̈́̂́̓t̷͖̗̻͐̏̾͊͗p̸̨̢̱̥̖̞̘̦͍̣̰̳̣̉͆͝͝s̴̟̮̪̠̼̤̋͋͂̉͂́͐́̅̃̓̽̕", 20, YELLOW, x, y+36*factor )
         pg.display.flip()
 
 #way to detect if any key on the keyboard is pressed

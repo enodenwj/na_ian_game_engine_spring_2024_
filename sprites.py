@@ -52,6 +52,13 @@ def wish_inv_timer(seconds, self):
     self.wishinvtimer = 1
     self.inv = False
 
+def trap_inv_timer(seconds, self):
+    while seconds:
+        time.sleep(100)
+        seconds -= 1
+        print(self.trapinvtimer)
+    self.trapinvtimer = 1
+
 # Coach Cozort's Code
 # sets up file with multiple images...
 class Spritesheet:
@@ -109,7 +116,9 @@ class Player(Sprite):
         self.items = 0
         self.shop1 = 0
         self.shop = 0
+        self.trap = "ACTIVE"
         self.win = "NO"
+        self.trapinvtimer = 1
         self.shoptimer = 1
         self.pulls = 0
         self.wishshoptimer = 1
@@ -133,7 +142,7 @@ class Player(Sprite):
             timer_thread = threading.Thread(target=shop_timer, args=(1, self))
             timer_thread.start()            
         if self.shop == 1:
-            if keys[pg.K_1] and self.primegem > 159 and self.wishshoptimer == 1:
+            if keys[pg.K_1] and self.primegem > 160 and self.wishshoptimer == 1:
                 PULLS += 1
                 self.pulls += 1
                 self.primegem -= 160
@@ -150,8 +159,13 @@ class Player(Sprite):
                 self.primegem -= 600
                 timer_thread = threading.Thread(target=wish_inv_timer, args=(10, self))
                 timer_thread.start()
-            if keys[pg.K_3]:
+            if keys[pg.K_3] and self.primegem > 1000 and self.trapinvtimer == 1:
                 self.items += 1
+                self.trapinvtimer = 0
+                self.trap = "DISARMED"
+                self.primegem -= 1000
+                timer_thread = threading.Thread(target=trap_inv_timer, args=(10, self))
+                timer_thread.start()
             if keys[pg.K_4]:
                 self.items += 1
             if keys[pg.K_i] and keys[pg.K_a] and keys[pg.K_n]:
@@ -230,7 +244,7 @@ class Player(Sprite):
             if str(hits[0].__class__.__name__) == "Coin":
                 self.score += 1
                 self.primegem += 60
-            elif str(hits[0].__class__.__name__) == "WallTP" and self.ptw == False:
+            elif str(hits[0].__class__.__name__) == "WallTP" and self.ptw == False and self.trap == "ACTIVE":
                 if self.tptimer > 0:
                     self.tptimer -= 1
                 timer_thread = threading.Thread(target=countdown_timer, args=(3, self))
