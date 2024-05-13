@@ -166,8 +166,6 @@ class Player(Sprite):
                 self.primegem -= 1000
                 timer_thread = threading.Thread(target=trap_inv_timer, args=(10, self))
                 timer_thread.start()
-            if keys[pg.K_4]:
-                self.items += 1
             if keys[pg.K_i] and keys[pg.K_a] and keys[pg.K_n]:
                 self.primegem += 100000
 

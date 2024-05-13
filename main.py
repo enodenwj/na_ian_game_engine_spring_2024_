@@ -158,7 +158,7 @@ class Game:
         self.show_text(self.screen, "(primegem x160) Press 1 for 1x interlaced destiny", 20, YELLOW, x, y+(-6)*factor )
         self.show_text(self.screen, "(Primegem x600) Press 2 for 10s invincibility", 20, YELLOW, x, y+(-4)*factor )
         self.show_text(self.screen, "(Primegem x1000) Press 3 for trap immunity", 20, YELLOW, x, y+(-2)*factor )        
-        self.show_text(self.screen, "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||", 20, YELLOW, x, y+(-2)*factor )
+        self.show_text(self.screen, "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||", 20, YELLOW, x, y+(0)*factor )
         self.show_text(self.screen, "Press SPACE to pull x1", 20, YELLOW, x, y+6*factor )
         self.show_text(self.screen, "OP: " + str(g.player.ptw), 20, YELLOW, x, y+16*factor )
         self.show_text(self.screen, "INV: " + str(g.player.inv), 20, YELLOW, x, y+18*factor )
