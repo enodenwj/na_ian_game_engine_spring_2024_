@@ -7,9 +7,8 @@
 #Rules: Walls stop the player, enemies kill the player (very minimal hitpoints, almost instant death)
 #Feedback: The hitpoints, player speed are shown in game, and other statuses
 
-#final goal: shop for buffs and gambling... paypal link
-#make something like the startscreen but for a shop, then stop updating game when you clock on a sprite that will be the button to open shop
-#shop closes after you buy 5 items you can buy 5 and only 5 items.
+#final goal: shop for buffs and gambling
+#make something like the startscreen but for a shop, then stop updating game when you open shop.
 #items will be binded to keys, so the code can easily just exist all in the sprite that will be the button to open shop.
 
 #importing libraries including our own
@@ -144,6 +143,7 @@ class Game:
         self.show_text(self.screen, "YOU WON, closing game...", 20, GREEN, x+20, y + 23*factor)
         pg.display.flip()
 
+    #displays the shop ui when the variable shop is 1
     def display_shop_screen(self):
         self.screen.fill(STARTBG)
         x = WIDTH/2
@@ -156,7 +156,7 @@ class Game:
         self.show_text(self.screen, "Primegem " + str(self.player.primegem), 25, RED, 900, 0) 
         self.show_text(self.screen, "||||||||||||||||||||||||||||||||||SHOP||||||||||||||||||||||||||||||||||||", 20, YELLOW, x, y+(-8)*factor )
         self.show_text(self.screen, "(primegem x160) Press 1 for 1x interlaced destiny", 20, YELLOW, x, y+(-6)*factor )
-        self.show_text(self.screen, "(Primegem x600) Press 2 for 10s invincibility", 20, YELLOW, x, y+(-4)*factor )
+        self.show_text(self.screen, "(Primegem x600) Press 2 for 5s invincibility", 20, YELLOW, x, y+(-4)*factor )
         self.show_text(self.screen, "(Primegem x1000) Press 3 for trap immunity", 20, YELLOW, x, y+(-2)*factor )        
         self.show_text(self.screen, "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||", 20, YELLOW, x, y+(0)*factor )
         self.show_text(self.screen, "Press SPACE to pull x1", 20, YELLOW, x, y+6*factor )

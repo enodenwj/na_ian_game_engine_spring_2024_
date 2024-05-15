@@ -140,7 +140,8 @@ class Player(Sprite):
                 self.shop = 1
             self.shoptimer -= 1
             timer_thread = threading.Thread(target=shop_timer, args=(1, self))
-            timer_thread.start()            
+            timer_thread.start()  
+        #a separate set of input detectionis dedicated to buying items          
         if self.shop == 1:
             if keys[pg.K_1] and self.primegem > 160 and self.wishshoptimer == 1:
                 PULLS += 1
@@ -157,7 +158,7 @@ class Player(Sprite):
                 self.wishinvtimer = 0
                 self.inv = True
                 self.primegem -= 600
-                timer_thread = threading.Thread(target=wish_inv_timer, args=(10, self))
+                timer_thread = threading.Thread(target=wish_inv_timer, args=(5, self))
                 timer_thread.start()
             if keys[pg.K_3] and self.primegem > 1000 and self.trapinvtimer == 1:
                 self.items += 1
@@ -168,7 +169,7 @@ class Player(Sprite):
                 timer_thread.start()
             if keys[pg.K_i] and keys[pg.K_a] and keys[pg.K_n]:
                 self.primegem += 100000
-
+        #normal key inputs have been moved into an if statement so that the player does not move while in the shop
         if SHOP == 0:
             if keys[pg.K_LEFT] or keys[pg.K_a]:
                 if self.tptimer == 1:
@@ -318,49 +319,49 @@ class Wall(Sprite):
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
 
-class Shop(Sprite):
-    # Initializing the wall class with attributes.
-    def __init__ (self,game,x,y):
-        self.groups = game.all_sprites, game.shop
-        Sprite.__init__(self, self.groups)
-        self.game = game
-        # create a square
-        self.image = pg.Surface((TILESIZE,TILESIZE))
-        self.image.fill(GREEN)
-        self.rect = self.image.get_rect()
-        self.x = x
-        self.y = y
-        self.rect.x = x * TILESIZE
-        self.rect.y = y * TILESIZE
-        self.items = 0
+# class Shop(Sprite):
+#     # Initializing the wall class with attributes.
+#     def __init__ (self,game,x,y):
+#         self.groups = game.all_sprites, game.shop
+#         Sprite.__init__(self, self.groups)
+#         self.game = game
+#         # create a square
+#         self.image = pg.Surface((TILESIZE,TILESIZE))
+#         self.image.fill(GREEN)
+#         self.rect = self.image.get_rect()
+#         self.x = x
+#         self.y = y
+#         self.rect.x = x * TILESIZE
+#         self.rect.y = y * TILESIZE
+#         self.items = 0
 
-#add something here for mouse input, and then it will change shop variable to 1 and start all the other things.
-#purchase: wishes, 
+# #add something here for mouse input, and then it will change shop variable to 1 and start all the other things.
+# #purchase: wishes, 
 
-    def get_keys1(self):
-        global SHOP
-        global PULLS
-        keys = pg.key.get_pressed()
-        if keys[pg.K_5]:
-            SHOP = 1
-        if SHOP == 1:
-            if keys[pg.K_1]:
-                PULLS += 1
-                self.items += 1
-                print('this is a shop item purchase. thanks')
-                print (str(PULLS))
-            if keys[pg.K_2]:
-                self.items += 1 
-            if keys[pg.K_3]:
-                self.items += 1
-            if keys[pg.K_4]:
-                self.items += 1
+#     def get_keys1(self):
+#         global SHOP
+#         global PULLS
+#         keys = pg.key.get_pressed()
+#         if keys[pg.K_5]:
+#             SHOP = 1
+#         if SHOP == 1:
+#             if keys[pg.K_1]:
+#                 PULLS += 1
+#                 self.items += 1
+#                 print('this is a shop item purchase. thanks')
+#                 print (str(PULLS))
+#             if keys[pg.K_2]:
+#                 self.items += 1 
+#             if keys[pg.K_3]:
+#                 self.items += 1
+#             if keys[pg.K_4]:
+#                 self.items += 1
 
-    def update(self):
-        global SHOP
-        self.get_keys1()
-        if self.items == 5:
-            SHOP = 0
+#     def update(self):
+#         global SHOP
+#         self.get_keys1()
+#         if self.items == 5:
+#             SHOP = 0
 
 # Create a start block class, like walls
 class StartBlock(Sprite):
